@@ -1,4 +1,4 @@
-package com.pemmob.smartspend.data.model
+package com.kelompok.smartspend.data.model
 
 data class Transaction(
     val id: String = "",

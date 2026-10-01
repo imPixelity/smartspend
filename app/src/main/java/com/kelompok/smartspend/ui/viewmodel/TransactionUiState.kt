@@ -1,6 +1,6 @@
-package com.pemmob.smartspend.ui.viewmodel
+package com.kelompok.smartspend.ui.viewmodel
 
-import com.pemmob.smartspend.data.model.Transaction
+import com.kelompok.smartspend.data.model.Transaction
 
 // Daftar transaksi + ringkasan (Home)
 sealed interface TransactionUiState {
