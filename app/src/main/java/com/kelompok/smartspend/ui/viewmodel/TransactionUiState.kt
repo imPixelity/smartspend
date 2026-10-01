@@ -2,7 +2,6 @@ package com.kelompok.smartspend.ui.viewmodel
 
 import com.kelompok.smartspend.data.model.Transaction
 
-// STUB - akan diganti oleh Anggota C
 // Daftar transaksi + ringkasan (Home)
 sealed interface TransactionUiState {
     data object Loading : TransactionUiState
