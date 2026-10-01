@@ -1,16 +1,31 @@
 package com.kelompok.smartspend.data.network
 
-import com.kelompok.smartspend.data.model.Transaction
-import retrofit2.Response
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
-// STUB - akan diganti oleh Anggota A
 object RetrofitInstance {
+    private const val BASE_URL = "https://6abe299ec4d5ac5483023024.mockapi.io/"
+
+    private val loggingInterceptor = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    }
+
+    private val okHttpClient = OkHttpClient.Builder()
+        .addInterceptor(loggingInterceptor)
+        .connectTimeout(15, TimeUnit.SECONDS)
+        .readTimeout(15, TimeUnit.SECONDS)
+        .writeTimeout(15, TimeUnit.SECONDS)
+        .build()
+
     val api: ApiService by lazy {
-        object : ApiService {
-            override suspend fun getTransactions(): List<Transaction> = emptyList()
-            override suspend fun getTransactionById(id: String): Transaction = Transaction()
-            override suspend fun addTransaction(transaction: Transaction): Transaction = transaction
-            override suspend fun deleteTransaction(id: String): Response<Unit> = Response.success(Unit)
-        }
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+            .create(ApiService::class.java)
     }
 }
