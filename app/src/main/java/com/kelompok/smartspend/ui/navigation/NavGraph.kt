@@ -1,6 +1,7 @@
 package com.kelompok.smartspend.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -10,13 +11,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.kelompok.smartspend.data.model.Transaction
 import com.kelompok.smartspend.ui.screens.AddTransactionScreen
 import com.kelompok.smartspend.ui.screens.DetailScreen
 import com.kelompok.smartspend.ui.screens.HomeScreen
 import com.kelompok.smartspend.ui.viewmodel.TransactionActionState
 import com.kelompok.smartspend.ui.viewmodel.TransactionViewModel
 
-// STUB - akan diganti oleh Anggota D
 @Composable
 fun NavGraph(
     modifier: Modifier = Modifier,
@@ -27,9 +28,11 @@ fun NavGraph(
     val detailState by viewModel.detailState.collectAsStateWithLifecycle()
     val actionState by viewModel.actionState.collectAsStateWithLifecycle()
 
-    if (actionState is TransactionActionState.Success) {
-        navController.popBackStack()
-        viewModel.resetActionState()
+    LaunchedEffect(actionState) {
+        if (actionState is TransactionActionState.Success) {
+            navController.popBackStack()
+            viewModel.resetActionState()
+        }
     }
 
     NavHost(
@@ -41,7 +44,7 @@ fun NavGraph(
             HomeScreen(
                 uiState = uiState,
                 onAddClick = { navController.navigate(Screen.AddTransaction) },
-                onTransactionClick = { id -> navController.navigate(Screen.Detail(id)) },
+                onTransactionClick = { id: String -> navController.navigate(Screen.Detail(id)) },
                 onRetry = { viewModel.loadTransactions() }
             )
         }
@@ -49,14 +52,16 @@ fun NavGraph(
         composable<Screen.AddTransaction> {
             AddTransactionScreen(
                 actionState = actionState,
-                onSubmit = { transaction -> viewModel.addTransaction(transaction) },
+                onSubmit = { transaction: Transaction -> viewModel.addTransaction(transaction) },
                 onNavigateBack = { navController.popBackStack() }
             )
         }
 
         composable<Screen.Detail> { backStackEntry ->
             val route = backStackEntry.toRoute<Screen.Detail>()
-            viewModel.loadTransactionById(route.transactionId)
+            LaunchedEffect(route.transactionId) {
+                viewModel.loadTransactionById(route.transactionId)
+            }
 
             DetailScreen(
                 detailState = detailState,
