@@ -8,7 +8,6 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 
-// STUB - akan diganti oleh Anggota A
 interface ApiService {
     @GET("transactions")
     suspend fun getTransactions(): List<Transaction>
