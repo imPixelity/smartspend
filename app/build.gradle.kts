@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.kelompok.smartspend"
+    namespace = "com.pemmob.smartspend"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.kelompok.smartspend"
+        applicationId = "com.pemmob.smartspend"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
