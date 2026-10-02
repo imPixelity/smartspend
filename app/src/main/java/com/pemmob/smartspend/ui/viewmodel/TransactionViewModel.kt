@@ -38,7 +38,11 @@ class TransactionViewModel(
             val result = repository.getTransactions()
             result.fold(
                 onSuccess = { list ->
-                    val sortedList = list.sortedByDescending { it.date }
+                    val sortedList = list.sortedWith(
+                        compareByDescending<Transaction> { it.date }
+                            .thenByDescending { it.id.toIntOrNull() ?: 0 }
+                            .thenByDescending { list.indexOf(it) }
+                    )
 
                     var totalIncome = 0.0
                     var totalExpense = 0.0
