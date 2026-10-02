@@ -65,7 +65,7 @@ fun TransactionItem(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
-                        text = transaction.date,
+                        text = formatDisplayDate(transaction.date),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
