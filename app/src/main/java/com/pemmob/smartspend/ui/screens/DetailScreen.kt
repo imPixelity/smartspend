@@ -38,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pemmob.smartspend.data.model.Transaction
 import com.pemmob.smartspend.data.model.TransactionType
+import com.pemmob.smartspend.ui.components.formatDisplayDate
 import com.pemmob.smartspend.ui.components.formatRupiah
 import com.pemmob.smartspend.ui.theme.ExpenseRed
 import com.pemmob.smartspend.ui.theme.IncomeGreen
@@ -157,7 +158,7 @@ fun DetailScreen(
 
                                 DetailRow(label = "Tipe", value = if (isIncome) "Pemasukan" else "Pengeluaran")
                                 DetailRow(label = "Kategori", value = item.category)
-                                DetailRow(label = "Tanggal", value = item.date)
+                                DetailRow(label = "Tanggal", value = formatDisplayDate(item.date))
                             }
                         }
 
