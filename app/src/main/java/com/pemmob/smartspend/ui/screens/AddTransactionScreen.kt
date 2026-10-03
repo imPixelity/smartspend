@@ -13,7 +13,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
@@ -39,6 +45,8 @@ import androidx.compose.ui.unit.dp
 import com.pemmob.smartspend.data.model.Transaction
 import com.pemmob.smartspend.data.model.TransactionCategories
 import com.pemmob.smartspend.data.model.TransactionType
+import com.pemmob.smartspend.ui.theme.ExpenseRed
+import com.pemmob.smartspend.ui.theme.IncomeGreen
 import com.pemmob.smartspend.ui.theme.SmartSpendTheme
 import com.pemmob.smartspend.ui.viewmodel.TransactionActionState
 import java.text.SimpleDateFormat
@@ -111,6 +119,13 @@ fun AddTransactionScreen(
                         selectedCategory = TransactionCategories.expense.first()
                     },
                     label = { Text("Pengeluaran") },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Clear,
+                            contentDescription = null,
+                            tint = ExpenseRed
+                        )
+                    },
                     modifier = Modifier.weight(1f)
                 )
                 FilterChip(
@@ -120,6 +135,13 @@ fun AddTransactionScreen(
                         selectedCategory = TransactionCategories.income.first()
                     },
                     label = { Text("Pemasukan") },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = null,
+                            tint = IncomeGreen
+                        )
+                    },
                     modifier = Modifier.weight(1f)
                 )
             }
@@ -129,6 +151,9 @@ fun AddTransactionScreen(
                 onValueChange = { title = it },
                 label = { Text("Judul Transaksi") },
                 placeholder = { Text("mis. Makan Siang, Gaji") },
+                leadingIcon = {
+                    Icon(imageVector = Icons.Default.Edit, contentDescription = null)
+                },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
@@ -138,6 +163,9 @@ fun AddTransactionScreen(
                 onValueChange = { amountText = it.filter { char -> char.isDigit() || char == '.' } },
                 label = { Text("Nominal (Rp)") },
                 placeholder = { Text("mis. 25000") },
+                leadingIcon = {
+                    Icon(imageVector = Icons.Default.ShoppingCart, contentDescription = null)
+                },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
@@ -149,6 +177,9 @@ fun AddTransactionScreen(
                     onValueChange = {},
                     readOnly = true,
                     label = { Text("Kategori") },
+                    leadingIcon = {
+                        Icon(imageVector = Icons.AutoMirrored.Filled.List, contentDescription = null)
+                    },
                     trailingIcon = {
                         Icon(
                             imageVector = Icons.Default.ArrowDropDown,
@@ -185,6 +216,9 @@ fun AddTransactionScreen(
                 value = dateText,
                 onValueChange = { dateText = it },
                 label = { Text("Tanggal (yyyy-MM-dd)") },
+                leadingIcon = {
+                    Icon(imageVector = Icons.Default.DateRange, contentDescription = null)
+                },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
@@ -222,6 +256,12 @@ fun AddTransactionScreen(
                 if (actionState is TransactionActionState.InProgress) {
                     CircularProgressIndicator(
                         color = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                } else {
+                    Icon(
+                        imageVector = Icons.Default.Check,
+                        contentDescription = null,
                         modifier = Modifier.padding(end = 8.dp)
                     )
                 }
